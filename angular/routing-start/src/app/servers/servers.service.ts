@@ -1,5 +1,5 @@
 export class ServersService {
-  private servers = [
+  servers = [
     {
       id: 1,
       name: 'Productionserver',
