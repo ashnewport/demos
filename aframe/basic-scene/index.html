@@ -1,0 +1,61 @@
+<!-- https://aframe.io/docs/0.8.0/guides/building-a-basic-scene.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+        <a-assets>
+          <img id="boxTexture" src="https://i.imgur.com/mYmmbrp.jpg">
+          <img id="skyTexture" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg">
+          <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+          <!-- load audio in assets or below using a-sound for positional placement -->
+          <!-- <audio src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav" autoplay="true" preload></audio> -->
+        </a-assets>
+        <a-sound src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav" autoplay="true" preload position="-3 1 -4"></a-sound>
+        
+        <a-text value="Made by Ash!" color="#BBB" position="-0.9 0.2 -3" scale="1.5 1.5 1.5"></a-text>
+
+        <a-box src="#boxTexture" position="0 2 -5" rotation="0 45 45" scale="2 2 2" scale-on-mouseenter="to: 2.2 2.2 2.2">
+          <a-animation attribute="position" to="0 2.2 -5" direction="alternate" dur="2000" repeat="indefinite"></a-animation>
+          <a-animation attribute="scale" begin="mouseenter" dur="300" to="2.3 2.3 2.3"></a-animation>
+          <a-animation attribute="scale" begin="mouseleave" dur="300" to="2 2 2"></a-animation>
+          <a-animation attribute="rotation" begin="click" dur="2000" to="360 405 45"></a-animation>
+        </a-box>
+        
+        <a-camera>
+          <a-cursor></a-cursor>
+        </a-camera>
+        
+        <!-- Custom environment! -->
+        <a-plane src="#groundTexture" rotation="-90 0 0" width="30" height="30" repeat="10 10"></a-plane>
+        <a-sky src="#skyTexture"></a-sky>
+      
+        <a-light type="ambient" color="#445451"></a-light>
+        <a-light type="point" intensity="2" position="2 4 4"></a-light>
+
+        <!-- Out of the box environment! -->
+        <!-- <a-entity environment="preset: forest; dressingAmount: 500"></a-entity> -->
+      </a-scene>
+  </body>
+  <script>
+    AFRAME.registerComponent('scale-on-mouseenter', {
+      schema: {
+        to: {default: '2.5 2.5 2.5'}
+      },
+
+      init: function () {
+        var data = this.data;
+        this.el.addEventListener('mouseenter', function () {
+          this.setAttribute('scale', data.to);
+        });
+        // return to scale
+        // this.el.addEventListener('mouseleave', function () {
+        //   this.setAttribute('scale', {default: '1 1 1'});
+        // });
+      }
+    });
+  </script>
+</html>
