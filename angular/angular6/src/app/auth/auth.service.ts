@@ -5,6 +5,8 @@ import * as firebase from 'firebase';
   providedIn: 'root'
 })
 export class AuthService {
+  token: string;
+
   signUpUser(email: string, password: string) {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .catch(
@@ -15,10 +17,24 @@ export class AuthService {
   signInUser(email: string, password: string) {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(
-        response => console.log('signInWithEmailAndPassword', response)
+        response => {
+          firebase.auth().currentUser.getIdToken()
+          .then(
+            (token: string) => this.token = token
+          );
+          console.log('signInWithEmailAndPassword', response);
+        }
       )
       .catch(
         error => console.log('signInWithEmailAndPassword', error)
       );
+  }
+
+  getToken() {
+    firebase.auth().currentUser.getIdToken()
+      .then(
+        (token: string) => this.token = token
+      );
+    return this.token;
   }
 }
