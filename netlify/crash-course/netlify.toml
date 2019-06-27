@@ -1,0 +1,4 @@
+# npm i -g netlify-cli
+[build]
+    publish="dist"
+    functions="functions"
